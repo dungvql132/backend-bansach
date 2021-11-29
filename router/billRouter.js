@@ -10,6 +10,7 @@ app.get("/", (req,res)=>{
 app.post("/find",billMiddlewere.findBy);
 app.post("/addItem",billMiddlewere.insertMany);
 app.post("/groupBy",billMiddlewere.groupBy);
+app.put("/update", billMiddlewere.updateOne);
 
 app.delete("/delete",billMiddlewere.deleteMany);
 

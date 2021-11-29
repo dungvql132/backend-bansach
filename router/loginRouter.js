@@ -14,6 +14,7 @@ app.get("/getCurrentUser",loginmiddlewere.checklogin,(req,res)=>{
 })
 
 app.post("/signin",loginmiddlewere.login);
+app.post("/forgetpass",loginmiddlewere.forgetPass);
 app.post("/check",loginmiddlewere.checklogin,(req,res)=>{
     const {data, token} = body;
     res.json({

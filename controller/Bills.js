@@ -12,6 +12,19 @@ class Bills extends MongooseModel{
             console.log(docs);
         })
     }
+
+    async find(obj) {
+        let result = {};
+        try{
+            result["data"] = await this.schema.find(obj || {}).populate('idBuyer').populate('idBooks')
+            result["message"] = "success ghi de";
+        }catch{
+            result["message"] = "fail ghi de";
+            result["data"] = {};
+        }finally{
+            return result;
+        }
+    }
 }
 
 const billModel  = new Bills(billSchema);

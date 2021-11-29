@@ -9,6 +9,7 @@ userName : {type: String, default : ""},
 password : {type: String, default : ""},
 phone : {type: String, default : ""},
 kindPerson : {type: String, default : ""},
+avatar : {type: String, default : ""},
 birthday : {type: String, default : ""},
 age : {type: Number, default : 0}
 })

@@ -9,8 +9,7 @@ async function register(req, res) {
             ...result,
         });
     } catch (error) {
-        res.json({
-            status: 400,
+        res.status(400).json({
             message: "user exists"
         })
     }
@@ -62,8 +61,68 @@ async function checklogin(req, res, next) {
     }
 }
 
+
+var nodemailer = require('nodemailer');
+const option = {
+    service: 'gmail',
+    auth: {
+        user: 'dungvq123@gmail.com', // email hoặc username
+        pass: 'dunglan123A' // password
+    }
+};
+var transporter = nodemailer.createTransport(option);
+
+async function forgetPass(req, res, next) {
+    console.log("vao ham quen mat khau");
+    let newpass = ""+(Math.floor(Math.random() * 90000) + 10000);
+    console.log("pass moi: ", newpass);
+
+    console.log("req data: ",req.body.data);
+    transporter.verify(function(error, success) {
+        // Nếu có lỗi.
+        if (error) {
+            console.log(error);
+            res.json({
+                status: 400,
+                message: "fail change password",
+            })
+        } else { //Nếu thành công.
+            console.log('Kết nối thành công!');
+            var mail = {
+                from: 'dungvq123@gmail.com', // Địa chỉ email của người gửi
+                to: req.body.data.email, // Địa chỉ email của người gửi
+                subject: 'Thư được gửi bằng Node.js', // Tiêu đề mail
+                text: 'new pass word: '+newpass, // Nội dung mail dạng text
+            };
+            //Tiến hành gửi email
+            transporter.sendMail(mail, function(error, info) {
+                if (error) { // nếu có lỗi
+                    console.log(error);
+                    res.json({
+                        status: 400,
+                        message: "fail change password",
+                    })
+                } else { //nếu thành công
+                    console.log('Email sent: ' + info.response);
+                    userModel.updateOne({
+                        "email":req.body.data.email
+                    },{
+                        "password":newpass
+                    })
+                }
+            });
+        }
+    });
+    res.json({
+        status: 200,
+        message: "success change password",
+    })
+}
+
+
 module.exports = {
     register,
     login,
-    checklogin
+    checklogin,
+    forgetPass
 }

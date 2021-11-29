@@ -43,6 +43,23 @@ async function findBy(req, res) {
     }
 }
 
+async function updateOne(req, res) {
+    try {
+        let myData = req.body.data;
+        // console.log("my data: ",myData);
+        let result = await billModel.updateOne(myData.oldValue, myData.newValue);
+        res.json({
+            status: 200,
+            ...result,
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            status: 400,
+        })
+    }
+}
+
 async function findAll(req, res) {
     // console.log(req.headers.token);
     try {
@@ -79,4 +96,5 @@ module.exports = {
     findBy,
     findAll,
     groupBy,
+    updateOne,
 }

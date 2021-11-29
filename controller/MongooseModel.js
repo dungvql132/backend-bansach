@@ -23,7 +23,8 @@ class MogooseModel {
         try{
             result["data"] = await this.schema.insertMany(listObj);
             result["message"] = "success";
-        }catch{
+        }catch(err){
+            console.log("err: ",err);
             result["message"] = "fail";
             result["data"] = {};
         }finally{

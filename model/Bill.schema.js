@@ -4,11 +4,12 @@ const connectMongo = require("./mongoConn")();
 const Schema = mongoose.Schema;
 
 const Bill = new Schema({
-idBook : {type: String, default : ""},
-idProducer : {type: String, default : ""},
-idUser : {type: String, default : ""},
-payDate : {type:Date, default : Date.now},
-cost : {type: Number, default : 0}
+    idBuyer: { type: Schema.Types.ObjectId, ref: 'Users' },
+    idBooks:{type: [Schema.Types.ObjectId], ref: 'Books'},
+    type: { type: String, default: "basket" },
+    count: { type: []},
+    payDate: { type: Date, default: new Date() },
+    cost: { type: Number, default: 0 }
 })
 // mongoose.model("Bills", Bill).find()
 module.exports = mongoose.model("Bills", Bill);
